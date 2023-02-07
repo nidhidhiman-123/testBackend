@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-import { APP_URL } from "../config";
+const { APP_URL } = require("../config");
 const registerSchema = new Schema({
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
