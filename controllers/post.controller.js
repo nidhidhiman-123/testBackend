@@ -16,7 +16,7 @@ const handleMultipartData = multer({ storage, limit: { filesize: 1000000 * 5 } }
 
 // const postController = {
 
-const add_post = async (req, res) => {
+exports.add_post = async (req, res) => {
     const current_date = new Date();
 
     console.log(current_date);
@@ -45,7 +45,7 @@ const add_post = async (req, res) => {
     });
 }
 
-const allpost = async (req, res) => {
+exports.allpost = async (req, res) => {
     //     const all = await postModel.find();
     //     res.status(201).json(all);
     // },
@@ -71,7 +71,7 @@ const allpost = async (req, res) => {
 
 
 
-const deletepost = async (req, res) => {
+exports.deletepost = async (req, res) => {
     let all;
     try {
         all = await postModel.findOneAndDelete({ _id: req.params.id });
@@ -87,7 +87,7 @@ const deletepost = async (req, res) => {
 
 
 
-const add_leaves = async (req, res) => {
+exports.add_leaves = async (req, res) => {
 
     const { name, leave_type } = req.body;
     let data;
@@ -110,12 +110,12 @@ const add_leaves = async (req, res) => {
 
 }
 
-const allleave = async (req, res) => {
+exports.allleave = async (req, res) => {
     const leave = await leavesModel.find();
     res.status(201).json(leave);
 }
 
-const like = async (req, res) => {
+exports.like = async (req, res) => {
     try {
         let check = await postModel.findById(req.params.id)
         let likeArray = check.like
@@ -138,29 +138,12 @@ const like = async (req, res) => {
 }
 
 
-const allcomment = async (req, res) => {
+exports.allcomment = async (req, res) => {
     const comments = await postModel.find();
     res.status(201).json(comments);
 }
 
-////////////////////////////////comment//////////////////
 
-// async allcomment(req, res) {
-//     const comments = await postModel.findOneAndUpdate({ _id: req.params.id }, {
-//         Comment: {
-//             comment: req.body.comment
-//         },
-//     })
-//     res.status(201).json(comments);
-//     console.log(comments, "likelike")
-// },
-
-
-
-//////////////////
-
+// module.exports = {
+//     add_post, allcomment, like, allleave, add_leaves, deletepost, allpost
 // }
-// export default postController;
-module.exports = {
-    add_post, allcomment, like, allleave, add_leaves, deletepost, allpost
-}

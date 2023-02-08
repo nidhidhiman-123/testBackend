@@ -21,4 +21,4 @@ const postSchema = new Schema({
     ]
 }, { timestamps: true, toJSON: { getters: true } });
 
-export default mongoose.model('Post', postSchema, 'post')
+module.exports = mongoose.model('Post', postSchema, 'post')

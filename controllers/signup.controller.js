@@ -4,7 +4,7 @@ const SECRET_KEY = "MYSECRETKEY"
 
 // const signUpController = {
 
-const signup = async (req, res) => {
+exports.signup = async (req, res) => {
   try {
     const { username, email, password, dob, phonenumber, reporting_manager, designation, leave_quota } = req.body;
     const existingUser = await registerModel.findOne({ email: email });
@@ -39,4 +39,4 @@ const signup = async (req, res) => {
 
 
 // export default signUpController;
-module.exports = { signup }
+// module.exports = { signup }

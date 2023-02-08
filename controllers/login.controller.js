@@ -6,7 +6,7 @@ const SECRET_KEY = "MYSECRETKEY"
 // const loginController = {
 
 
-const login = async (req, res) => {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -34,4 +34,4 @@ const login = async (req, res) => {
 
 
 // export default loginController;\
-module.exports = { login }
+// module.exports = { login }

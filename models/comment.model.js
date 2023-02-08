@@ -15,4 +15,4 @@ const commentSchema = new Schema({
 
 }, { timestamps: true, toJSON: { getters: true } });
 
-export default mongoose.model('Comment', commentSchema, 'comment')
+module.exports = mongoose.model('Comment', commentSchema, 'comment')

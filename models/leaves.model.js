@@ -11,4 +11,4 @@ const leavesSchema = new Schema({
 
 }, { timestamps: true });
 
-export default mongoose.model('Leaves', leavesSchema, 'leaves')
+module.exports = mongoose.model('Leaves', leavesSchema, 'leaves')

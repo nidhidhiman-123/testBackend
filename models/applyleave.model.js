@@ -5,10 +5,7 @@ const Schema = mongoose.Schema;
 
 const applyleaveSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, ref: 'NewUser' },
-    // leaves: { 
-    //     type: Array
 
-    //  },
     leave: { type: Schema.Types.ObjectId, ref: 'Leaves', required: true },
     status: { type: String, default: "pending" },
     from_date: { type: String, required: true },
@@ -20,9 +17,4 @@ const applyleaveSchema = new Schema({
 })
 
 
-
-
-
-
-
-export default mongoose.model('Apply_leave', applyleaveSchema, 'apply_leave')
+module.exports = mongoose.model('Apply_leave', applyleaveSchema, 'apply_leave');

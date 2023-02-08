@@ -17,7 +17,7 @@ const handleMultipartData = multer({ storage, limit: { filesize: 1000000 * 5 } }
 
 // const profileController = {
 
-const profile = async (req, res) => {
+exports.profile = async (req, res) => {
   let records;
   try {
     records = await newuserModel.findById(req.user.id);
@@ -28,7 +28,7 @@ const profile = async (req, res) => {
   return res.json(records);
 }
 
-const editusername = async (req, res) => {
+exports.editusername = async (req, res) => {
 
   const { username } = req.body;
 
@@ -43,7 +43,7 @@ const editusername = async (req, res) => {
   return res.json(editname);
 }
 
-const editemail = async (req, res) => {
+exports.editemail = async (req, res) => {
 
   const { email } = req.body
 
@@ -58,7 +58,7 @@ const editemail = async (req, res) => {
   return res.json(editemail);
 }
 
-const editphone = async (req, res) => {
+exports.editphone = async (req, res) => {
 
   const { phonenumber } = req.body
 
@@ -73,7 +73,7 @@ const editphone = async (req, res) => {
   return res.json(editphone);
 }
 
-const editpassword = async (req, res) => {
+exports.editpassword = async (req, res) => {
 
   const { password } = req.body
 
@@ -88,7 +88,7 @@ const editpassword = async (req, res) => {
   return res.json(editpassword);
 }
 
-const editdob = async (req, res) => {
+exports.editdob = async (req, res) => {
 
   const { dob } = req.body
 
@@ -102,14 +102,14 @@ const editdob = async (req, res) => {
 
   return res.json(editdob);
 }
-const imageupload = async (req, res) => {
+exports.imageupload = async (req, res) => {
 
   handleMultipartData(req, res, async (err) => {
     const filePath = req.file.path;
     console.log(filePath)
     let imageupload;
     try {
-      imageupload = await registerModel.findOneAndUpdate({ _id: req.user.id }, {
+      imageupload = await newuserModel.findOneAndUpdate({ _id: req.user.id }, {
 
         image: filePath
 
@@ -127,6 +127,6 @@ const imageupload = async (req, res) => {
 
 // }
 // export default profileController;
-module.exports = {
-  imageupload, editdob, editpassword, editphone, editemail, editusername, profile
-}
+// module.exports = {
+//   imageupload, editdob, editpassword, editphone, editemail, editusername, profile
+// }

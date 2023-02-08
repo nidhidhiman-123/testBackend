@@ -4,7 +4,7 @@ const SECRET_KEY = "MYSECRETKEY"
 
 // const newuserController = {
 
-const adduser = async (req, res) => {
+exports.adduser = async (req, res) => {
   try {
     const { name, email, password, dob, phonenumber, designation, emp_id, date_of_joining } = req.body;
     const existingUser = await newuserModel.findOne({ email: email });
@@ -31,9 +31,7 @@ const adduser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 }
-// }
 
 
 
-// export default newuserController;
-module.exports = { adduser }
+

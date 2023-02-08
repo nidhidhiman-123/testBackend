@@ -26,4 +26,7 @@ app.use(express.urlencoded({ extended: true }))
 mongoose.connect(DATABASE_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 }).then(() => app.listen(port, () => console.log('listen on port 8000.'))).catch((error) => console.log("error occured", error))
+
+

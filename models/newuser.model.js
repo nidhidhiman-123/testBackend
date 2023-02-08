@@ -11,8 +11,13 @@ const newuserSchema = new Schema({
     designation: { type: String, required: true },
     date_of_joining: { type: String, required: true },
     emp_id: { type: String, required: true },
-    role: { type: Intl, default: 0 }
+    role: { type: Intl, default: 0 },
+    image: {
+        type: String, get: (image) => {
+            return `${APP_URL} /${image}`;
+        }
+    },
 
 }, { timestamps: true, toJSON: { getters: true } });
 
-export default mongoose.model('NewUser', newuserSchema, 'newuser')
+module.exports = mongoose.model('NewUser', newuserSchema, 'newuser')

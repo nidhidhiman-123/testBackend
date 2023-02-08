@@ -18,5 +18,5 @@ const registerSchema = new Schema({
 }, { timestamps: true });
 
 
-export default mongoose.model('Register', registerSchema, 'userdata')
+module.exports = mongoose.model('Register', registerSchema, 'userdata')
 

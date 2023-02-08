@@ -1,7 +1,7 @@
 const express = require('express');
-const app = express();
-const applyleaveController = require('../controllers/applyleave.controller');
 const router = express.Router();
+const app = router();
+const applyleaveController = require('../controllers/applyleave.controller');
 const loginController = require('../controllers/login.controller');
 const newuserController = require('../controllers/newuser.controller');
 const postController = require('../controllers/post.controller');
@@ -19,7 +19,7 @@ app.put('/editphone', auth, profileController.editphone);
 app.put('/editpassword', auth, profileController.editpassword);
 app.put('/editdob', auth, profileController.editdob);
 app.post('/imageupload', auth, profileController.imageupload);
-router.post('/add_post', postController.add_post);
+app.post('/add_post', postController.add_post);
 app.get('/all_post', auth, postController.allpost);
 app.delete('/delete_post/:id', postController.deletepost);
 app.post('/add_user', newuserController.adduser);
@@ -33,4 +33,5 @@ app.get('/single_user_apply_leave', auth, applyleaveController.single_user_apply
 app.post('/like/:id', auth, postController.like);
 app.get('/allcomment', postController.allcomment);
 
-module.exports = { router };
+module.exports = { app };
+

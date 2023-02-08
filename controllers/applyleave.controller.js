@@ -2,7 +2,6 @@ const applyleaveModel = require("../models/applyleave.model");
 const leavesModel = require("../models/leaves.model");
 const newuserModel = require("../models/newuser.model");
 
-// const applyleaveController = {
 
 const apply = async (req, res) => {
 
@@ -104,9 +103,8 @@ const single_user_apply_leave = async (req, res) => {
 
 
 
-// }
-// export default applyleaveController
+
 module.exports = {
     apply, getapply_leaves, update_leave, single_user_apply_leave, cancel_leave
 }
-// module.exports = applyleaveController
+
