@@ -30,7 +30,46 @@ exports.adduser = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-}
+
+},
+  exports.all = async (req, res) => {
+
+    let findrecords;
+
+    try {
+      findrecords = await newuserModel.findById(req.user.id);
+    }
+    catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+    return res.json(findrecords);
+  },
+
+  exports.all_employee = async (req, res) => {
+
+    let allemployee = await newuserModel.find();
+    let birthday = [];
+    for (let x of allemployee) {
+      const todayMonth = new Date().getMonth() + 1;
+
+      var DateObj = new Date(x.dob);
+      console.log(DateObj.getMonth() + 1, todayMonth, "sddddddddddddd");
+      const final = DateObj.getMonth() + 1
+      if (final === todayMonth) {
+        console.log("yes")
+        birthday.push({ name: x.name, dob: x.dob, image: x.image })
+      }
+      else {
+        console.log("no")
+      }
+
+      console.log(birthday, "birthday")
+
+    }
+    res.status(201).json(birthday);
+
+  }
+
 
 
 

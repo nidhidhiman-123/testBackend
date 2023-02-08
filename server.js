@@ -23,10 +23,11 @@ app.use('/', router);
 app.use('/uploads', express.static('uploads'));
 app.use(express.urlencoded({ extended: true }))
 
+mongoose.set("strictQuery", false);
 mongoose.connect(DATABASE_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
+  // useCreateIndex: true,
 }).then(() => app.listen(port, () => console.log('listen on port 8000.'))).catch((error) => console.log("error occured", error))
 
 

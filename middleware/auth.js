@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-// const config = process.env;
+
 const SECRET_KEY = "MYSECRETKEY"
 
 const auth = async (req, res, next) => {
@@ -18,7 +18,5 @@ const auth = async (req, res, next) => {
   return next();
 };
 
-// export default auth;
-module.exports = {
-  auth
-}
+
+module.exports = auth;
