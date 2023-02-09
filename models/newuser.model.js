@@ -7,7 +7,7 @@ const newuserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     phonenumber: { type: String, required: true },
-    dob: { type: String, required: true },
+    dob: { type: Date, required: true },
     designation: { type: String, required: true },
     date_of_joining: { type: String, required: true },
     emp_id: { type: String, required: true },
