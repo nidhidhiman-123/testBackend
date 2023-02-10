@@ -34,7 +34,7 @@ exports.editusername = async (req, res) => {
 
   let editname;
   try {
-    editname = await registerModel.updateOne({ _id: req.user.id }, { $set: { username: username } })
+    editname = await newuserModel.updateOne({ _id: req.user.id }, { $set: { username: username } })
   }
   catch (err) {
     res.status(500).json({ error: err.message });
@@ -49,7 +49,7 @@ exports.editemail = async (req, res) => {
 
   let editemail;
   try {
-    editemail = await registerModel.updateOne({ _id: req.user.id }, { $set: { email: email } })
+    editemail = await newuserModel.updateOne({ _id: req.user.id }, { $set: { email: email } })
   }
   catch (err) {
     res.status(500).json({ error: err.message });
@@ -64,7 +64,7 @@ exports.editphone = async (req, res) => {
 
   let editphone;
   try {
-    editphone = await registerModel.updateOne({ _id: req.user.id }, { $set: { phonenumber: phonenumber } })
+    editphone = await newuserModel.updateOne({ _id: req.user.id }, { $set: { phonenumber: phonenumber } })
   }
   catch (err) {
     res.status(500).json({ error: err.message });
@@ -79,7 +79,7 @@ exports.editpassword = async (req, res) => {
 
   let editpassword;
   try {
-    editpassword = await registerModel.updateOne({ _id: req.user.id }, { $set: { password: password } })
+    editpassword = await newuserModel.updateOne({ _id: req.user.id }, { $set: { password: password } })
   }
   catch (err) {
     res.status(500).json({ error: err.message });
@@ -94,7 +94,7 @@ exports.editdob = async (req, res) => {
 
   let editdob;
   try {
-    editdob = await registerModel.updateOne({ _id: req.user.id }, { $set: { dob: dob } })
+    editdob = await newuserModel.updateOne({ _id: req.user.id }, { $set: { dob: dob } })
   }
   catch (err) {
     res.status(500).json({ error: err.message });

@@ -1,5 +1,6 @@
 const postModel = require("../models/post.model");
 const leavesModel = require("../models/leaves.model");
+const eventModel = require("../models/event.model");
 const multer = require("multer");
 
 
@@ -68,6 +69,45 @@ exports.allpost = async (req, res) => {
     return res.send(arr);
 
 }
+
+exports.editpost = async (req, res) => {
+    const { title, description, post_date, image } = req.body;
+    let editpost;
+    try {
+        editpost = await postModel.findByIdAndUpdate({ _id: req.params.id },
+
+            { title: title, description: description, post_date: post_date });
+    }
+    catch (error) {
+        console.log(error);
+    }
+
+
+    res.status(201).json(editpost);
+}
+
+// exports.updateimageupload = async (req, res) => {
+
+//     handleMultipartData(req, res, async (err) => {
+//         const filePaths = req.file.path;
+//         console.log(filePaths)
+//         let update_image_upload;
+//         try {
+//             update_image_upload = await postModel.findOneAndUpdate({ _id: req.params.id }, {
+
+//                 image: filePaths
+
+//             });
+//         }
+
+//         catch (err) {
+//             console.log(err)
+//         }
+//         res.status(201).json(update_image_upload);
+
+//     });
+
+// },
 
 
 
@@ -142,6 +182,45 @@ exports.allcomment = async (req, res) => {
     const comments = await postModel.find();
     res.status(201).json(comments);
 }
+
+exports.add_event = async (req, res) => {
+    const { event_title, event_date, event_description, start_time, end_time } = req.body;
+    let data;
+    try {
+        data = await eventModel.create(
+            {
+                event_title,
+                event_date,
+                event_description,
+                start_time,
+                end_time
+
+            });
+        console.log(data);
+    }
+    catch (err) {
+        console.log(err)
+    }
+    res.status(201).json({
+        success: true,
+        data: data
+    });
+},
+
+
+    exports.events = async (req, res) => {
+
+        let find;
+
+        try {
+            find = await eventModel.find();
+        }
+        catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+        return res.json(find);
+    }
+
 
 
 // module.exports = {

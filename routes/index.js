@@ -22,6 +22,8 @@ router.post('/imageupload', auth, profileController.imageupload);
 router.post('/add_post', postController.add_post);
 router.get('/all_post', auth, postController.allpost);
 router.delete('/delete_post/:id', postController.deletepost);
+// router.post('/updateimageupload/:id', postController.updateimageupload);
+router.put('/edit_post/:id', postController.editpost);
 router.post('/add_user', newuserController.adduser);
 router.post('/add_leave', postController.add_leaves);
 router.post('/apply_leave', auth, applyleaveController.apply);
@@ -34,6 +36,8 @@ router.post('/like/:id', auth, postController.like);
 router.get('/allcomment', postController.allcomment);
 router.get('/all', auth, newuserController.all)
 router.get('/all_employee', newuserController.all_employee)
+router.post('/add_event', auth, postController.add_event);
+router.get('/event', postController.events)
 
 module.exports = router;
 

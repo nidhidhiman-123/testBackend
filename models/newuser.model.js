@@ -14,7 +14,7 @@ const newuserSchema = new Schema({
     role: { type: Intl, default: 0 },
     image: {
         type: String, get: (image) => {
-            return `${APP_URL} /${image}`;
+            return `${APP_URL}/${image}`;
         }
     },
 
