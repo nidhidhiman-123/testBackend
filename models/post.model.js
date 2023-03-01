@@ -7,9 +7,7 @@ const postSchema = new Schema({
     description: { type: String, default: '' },
     post_date: { type: Date },
     image: {
-        type: String, default: '', get: (image) => {
-            return `${APP_URL} /${image}`;
-        }
+        type: String, default: '';
     },
     like: [
         { type: Schema.Types.ObjectId, ref: 'NewUser' }
