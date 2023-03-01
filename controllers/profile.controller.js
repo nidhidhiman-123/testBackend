@@ -1,6 +1,9 @@
 const registerModel = require("../models/register.model");
 const multer = require("multer");
 const newuserModel = require("../models/newuser.model");
+const bcrypt = require("bcrypt");
+
+
 
 
 
@@ -30,11 +33,11 @@ exports.profile = async (req, res) => {
 
 exports.editusername = async (req, res) => {
 
-  const { username } = req.body;
+  const { name } = req.body;
 
   let editname;
   try {
-    editname = await newuserModel.updateOne({ _id: req.user.id }, { $set: { username: username } })
+    editname = await newuserModel.updateOne({ _id: req.user.id }, { $set: { name: name } })
   }
   catch (err) {
     res.status(500).json({ error: err.message });
@@ -76,10 +79,11 @@ exports.editphone = async (req, res) => {
 exports.editpassword = async (req, res) => {
 
   const { password } = req.body
-
+  const salt = await bcrypt.genSalt();
+  const passwordHash = await bcrypt.hash(password, salt);
   let editpassword;
   try {
-    editpassword = await newuserModel.updateOne({ _id: req.user.id }, { $set: { password: password } })
+    editpassword = await newuserModel.updateOne({ _id: req.user.id }, { $set: { password: passwordHash, first_login: '' } })
   }
   catch (err) {
     res.status(500).json({ error: err.message });
@@ -105,8 +109,8 @@ exports.editdob = async (req, res) => {
 exports.imageupload = async (req, res) => {
 
   handleMultipartData(req, res, async (err) => {
+
     const filePath = req.file.path;
-    console.log(filePath)
     let imageupload;
     try {
       imageupload = await newuserModel.findOneAndUpdate({ _id: req.user.id }, {

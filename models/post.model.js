@@ -7,14 +7,14 @@ const postSchema = new Schema({
     description: { type: String, default: '' },
     post_date: { type: Date },
     image: {
-        type: String, default: '';
-    },
+        type: String, default: ''},
     like: [
         { type: Schema.Types.ObjectId, ref: 'NewUser' }
     ],
     comment: [
         {
-            type: mongoose.Schema.Types.ObjectId, ref: 'Comment'
+            userId: { type: Schema.Types.ObjectId, ref: 'NewUser' },
+            content: { type: String }
         }
     ]
 }, { timestamps: true, toJSON: { getters: true } });

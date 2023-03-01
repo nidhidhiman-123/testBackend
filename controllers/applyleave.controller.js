@@ -3,7 +3,7 @@ const leavesModel = require("../models/leaves.model");
 const newuserModel = require("../models/newuser.model");
 
 
-const apply = async (req, res) => {
+exports.apply = async (req, res) => {
 
     const { userId, reason, from_date, to_date, type_of_day, leave } = req.body;
     const leaves = req.body;
@@ -32,10 +32,24 @@ const apply = async (req, res) => {
 }
 
 
-const getapply_leaves = async (req, res) => {
+exports.getapply_leaves = async (req, res) => {
+
 
 
     try {
+        // const records = await applyleaveModel.find().populate('userId', { name: 1, emp_id: 1 }).populate('leave', { name: 1 });
+        const records = await applyleaveModel.find({ userId: { $ne: req.user.id } }).populate({ path: 'userId', match: { role: '0' } }).populate('userId', { name: 1, emp_id: 1 }).populate('leave', { name: 1 });
+        res.status(201).json(records);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+exports.admin_get_apply_leave = async (req, res) => {
+
+
+    try {
+        // const records = await applyleaveModel.find().match({userId:{role:'0'}}).populate('userId', { name: 1, emp_id: 1,role: 1}).populate('leave', { name: 1 });
         const records = await applyleaveModel.find().populate('userId', { name: 1, emp_id: 1 }).populate('leave', { name: 1 });
         res.status(201).json(records);
     }
@@ -44,8 +58,7 @@ const getapply_leaves = async (req, res) => {
     }
 }
 
-
-const update_leave = async (req, res) => {
+exports.update_leave = async (req, res) => {
 
     const id = req.params.id;
     // console.log(id);
@@ -64,8 +77,21 @@ const update_leave = async (req, res) => {
 
     }
     if (req.body.leave_type == 'full_leave') {
-        edit.leave['sick_leave'] -= 0.5
-        edit.leave['casual_leave'] -= 0.5
+        // if (approved.from_date != approved.to_date) {
+        //find diff 7
+        var a = moment(approved.to_date);
+        var b = moment(approved.from_date);
+        let diff = a.diff(b, 'days') + 1
+
+        edit.leave['sick_leave'] -= diff / 2
+        edit.leave['casual_leave'] -= diff / 2
+
+
+        // } else {
+
+        //     edit.leave['sick_leave'] -= 0.5
+        //     edit.leave['casual_leave'] -= 0.5
+        // }
     }
 
     let check = await newuserModel.findByIdAndUpdate(id, { $set: { leave: edit.leave } })
@@ -73,7 +99,7 @@ const update_leave = async (req, res) => {
 
 }
 
-const cancel_leave = async (req, res) => {
+exports.cancel_leave = async (req, res) => {
     try {
         const id = req.params.id;
         let apply_leave_id = req.body.apply_leave_id;
@@ -88,7 +114,7 @@ const cancel_leave = async (req, res) => {
 }
 
 
-const single_user_apply_leave = async (req, res) => {
+exports.single_user_apply_leave = async (req, res) => {
 
 
     try {
@@ -104,7 +130,7 @@ const single_user_apply_leave = async (req, res) => {
 
 
 
-module.exports = {
-    apply, getapply_leaves, update_leave, single_user_apply_leave, cancel_leave
-}
+// module.exports = {
+//     apply, getapply_leaves, update_leave, single_user_apply_leave, cancel_leave, admin_get_apply_leave
+// }
 
