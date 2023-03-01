@@ -91,6 +91,58 @@ exports.adduser = async (req, res) => {
     res.status(201).json(birthday);
 
   }
+exports.employee_birthday = async (req, res) => {
+
+  let allemployee = await newuserModel.find();
+  let birthday = [];
+  for (let x of allemployee) {
+    const todayMonth = new Date().getMonth() + 1;
+
+    var DateObj = new Date(x.dob);
+    console.log(DateObj.getMonth() + 1, todayMonth, "sddddddddddddd");
+    const final = DateObj.getMonth() + 1
+    if (final === todayMonth) {
+      console.log("yes")
+      birthday.push({ name: x.name, dob: x.dob, image: x.image })
+    }
+    else {
+      console.log("no")
+    }
+
+    console.log(birthday, "birthday")
+
+  }
+  res.status(201).json(birthday);
+
+}
+
+exports.employee_anniversary = async (req, res) => {
+  let allemployee = await newuserModel.find();
+  let anniversary = [];
+  for (let x of allemployee) {
+    const todayMonth = new Date().getMonth() + 1;
+
+    var DateObj = new Date(x.date_of_joining);
+    console.log(DateObj.getMonth() + 1, todayMonth, "sddddddddddddd");
+    const final = DateObj.getMonth() + 1
+    if (final === todayMonth) {
+      console.log("yes")
+
+      const difference = new Date().getFullYear() - DateObj.getFullYear();
+      if (difference > 0)
+        anniversary.push({ name: x.name, date_of_joining: x.date_of_joining, image: x.image, difference: difference })
+    }
+    else {
+      console.log("no")
+    }
+
+
+
+  }
+  res.status(201).json(anniversary);
+
+
+}
 
 
 

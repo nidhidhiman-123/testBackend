@@ -11,9 +11,8 @@ const registerSchema = new Schema({
     designation: { type: String, default: '' },
     leave_quota: { type: String, default: '' },
     image: {
-        type: String, get: (image) => {
-            return `${APP_URL} /${image}`;
-        }
+        type: String, default: ''
+
     },
 }, { timestamps: true });
 

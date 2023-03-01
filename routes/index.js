@@ -17,6 +17,7 @@ const auth = require('../middleware/auth');
 // router.post('/signup', signUpController.signup);
 router.post('/login', loginController.login);
 router.get('/profile', auth, profileController.profile);
+router.put('/edit_profile', auth, profileController.edit_profile);
 router.put('/editusername', auth, profileController.editusername);
 router.put('/editemail', auth, profileController.editemail);
 router.put('/editphone', auth, profileController.editphone);
@@ -28,7 +29,7 @@ router.get('/all_post', auth, postController.allpost);
 router.delete('/delete_post/:id', postController.deletepost);
 // router.post('/updateimageupload/:id', postController.updateimageupload);
 router.put('/edit_post/:id', postController.editpost);
-
+router.post('/change_password', auth, profileController.change_password);
 router.post('/add_user', newuserController.adduser);
 router.post('/add_leave', postController.add_leaves);
 router.post('/apply_leave', auth, applyleaveController.apply);
@@ -54,6 +55,9 @@ router.get('/admin_get_apply_leave', applyleaveController.admin_get_apply_leave)
 router.post('/comment/:id', auth, commentController.comment);
 router.post('/delete_comment', commentController.delete_comment);
 router.put('/edit_comment', commentController.edit_comment);
+router.get('/employee_birthday', newuserController.employee_birthday);
+router.get('/employee_anniversary', newuserController.employee_anniversary);
+router.get('/get_all_notification', auth, applyleaveController.get_all_notification);
 
 module.exports = router;
 

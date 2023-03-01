@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
 
     }
 
-    const token = jwt.sign({ email: user.email, id: user._id }, SECRET_KEY)
+    const token = jwt.sign({ email: user.email, id: user._id ,role:user.role}, SECRET_KEY)
     res.status(201).json({ success: true, authtoken: token, user: user })
 
   }

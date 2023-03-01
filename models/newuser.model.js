@@ -18,9 +18,7 @@ const newuserSchema = new Schema({
         sick_leave: { type: Intl, default: 0.5 },
     },
     image: {
-        type: String, get: (image) => {
-            return `${APP_URL}/${image}`;
-        }
+        type: String, default: ''
     },
     invite_status: { type: String, default: false }
 }, { timestamps: true, toJSON: { getters: true } });

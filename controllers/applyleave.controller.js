@@ -1,6 +1,8 @@
 const applyleaveModel = require("../models/applyleave.model");
 const leavesModel = require("../models/leaves.model");
 const newuserModel = require("../models/newuser.model");
+const notificationModel = require("../models/notification.model");
+
 
 
 exports.apply = async (req, res) => {
@@ -19,7 +21,12 @@ exports.apply = async (req, res) => {
 
 
         });
-        console.log(data);
+        let notification = await notificationModel.create({
+            userId: req.user.id,
+            type: "pending",
+            leave_id: data._id
+        })
+
     }
     catch (err) {
         console.log(err);
@@ -95,6 +102,7 @@ exports.update_leave = async (req, res) => {
     }
 
     let check = await newuserModel.findByIdAndUpdate(id, { $set: { leave: edit.leave } })
+    let set_notification = await notificationModel.findOneAndUpdate({ leave_id: apply_leave_id }, { type: "approved", is_read: true })
     return res.send("success")
 
 }
@@ -104,7 +112,7 @@ exports.cancel_leave = async (req, res) => {
         const id = req.params.id;
         let apply_leave_id = req.body.apply_leave_id;
         let cancelled = await applyleaveModel.findByIdAndUpdate(apply_leave_id, { status: 'rejected' })
-
+        let set_notification = await notificationModel.findOneAndUpdate({ leave_id: apply_leave_id }, { type: "rejected", is_read: true })
     }
     catch (error) {
         console.log(error);
@@ -127,6 +135,27 @@ exports.single_user_apply_leave = async (req, res) => {
 }
 
 
+exports.get_all_notification = async (req, res) => {
+    let role = req.user.role;
+    console.log(role,"noti");
+    let filter = {}
+    if (role == 2) {
+        filter.type = "pending"
+    }
+    if (role == 0) {
+        filter.type = { $in: ['rejected', 'approved'] }
+        filter.userId = req.user.id
+    }
+    console.log(filter,'noti')
+
+    try {
+        const all_notification = await notificationModel.find(filter).populate('userId', { name: 1 });
+        res.status(200).json(all_notification);
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
 
 
 
