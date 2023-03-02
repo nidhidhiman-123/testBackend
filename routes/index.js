@@ -58,6 +58,6 @@ router.put('/edit_comment', commentController.edit_comment);
 router.get('/employee_birthday', newuserController.employee_birthday);
 router.get('/employee_anniversary', newuserController.employee_anniversary);
 router.get('/get_all_notification', auth, applyleaveController.get_all_notification);
-
+router.put('/is_mark_read/:id', applyleaveController.is_mark_read);
 module.exports = router;
 

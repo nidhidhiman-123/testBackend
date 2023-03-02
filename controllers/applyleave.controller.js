@@ -137,16 +137,19 @@ exports.single_user_apply_leave = async (req, res) => {
 
 exports.get_all_notification = async (req, res) => {
     let role = req.user.role;
-    console.log(role,"noti");
-    let filter = {}
+    console.log(req.user)
+    let filter = {
+        is_read: false
+    }
     if (role == 2) {
         filter.type = "pending"
+        filter.userId = { $ne: req.user.id }
     }
     if (role == 0) {
         filter.type = { $in: ['rejected', 'approved'] }
         filter.userId = req.user.id
     }
-    console.log(filter,'noti')
+    console.log(filter, 'noti')
 
     try {
         const all_notification = await notificationModel.find(filter).populate('userId', { name: 1 });
@@ -157,7 +160,16 @@ exports.get_all_notification = async (req, res) => {
     }
 }
 
-
+exports.is_mark_read = async (req, res) => {
+    let is_mark;
+    try {
+        is_mark = await notificationModel.findByIdAndUpdate({ _id: req.params.id }, { is_read: true })
+    }
+    catch (error) {
+        console.log(error);
+    }
+    res.status(201).json(is_mark);
+}
 
 // module.exports = {
 //     apply, getapply_leaves, update_leave, single_user_apply_leave, cancel_leave, admin_get_apply_leave
