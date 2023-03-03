@@ -143,6 +143,29 @@ exports.employee_anniversary = async (req, res) => {
 
 
 }
+exports.employee_list = async (req, res) => {
+  let finalsheet;
+
+  try {
+    finalsheet = await newuserModel.find({ role: 0, is_delete: false })
+  }
+  catch (error) {
+    console.log(error);
+  }
+  res.status(201).json(finalsheet);
+}
+
+exports.employee_remove = async (req, res) => {
+  let remove;
+
+  try {
+    remove = await newuserModel.findByIdAndUpdate({ _id: req.params.id }, { is_delete: true })
+  }
+  catch (error) {
+    console.log(error);
+  }
+  res.status(201).json(remove);
+}
 
 
 

@@ -59,5 +59,7 @@ router.get('/employee_birthday', newuserController.employee_birthday);
 router.get('/employee_anniversary', newuserController.employee_anniversary);
 router.get('/get_all_notification', auth, applyleaveController.get_all_notification);
 router.put('/is_mark_read/:id', applyleaveController.is_mark_read);
+router.get('/employee_list', newuserController.employee_list);
+router.put('/employee_remove/:id', newuserController.employee_remove);
 module.exports = router;
 
