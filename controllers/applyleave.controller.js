@@ -7,9 +7,13 @@ const notificationModel = require("../models/notification.model");
 
 exports.apply = async (req, res) => {
 
-    const { userId, reason, from_date, to_date, type_of_day, leave } = req.body;
-    const leaves = req.body;
-
+    const { reason, from_date, to_date, leave_type, leave } = req.body;
+    if (!reason || !from_date || !leave || !leave_type) {
+        return res.status(400).send("Parameters missing")
+    }
+    if (leave_type == 'Full Day' && !to_date) {
+        return res.status(400).send("Parameters missing")
+    }
     let data;
     try {
         data = await applyleaveModel.create({
@@ -45,7 +49,7 @@ exports.getapply_leaves = async (req, res) => {
 
     try {
         // const records = await applyleaveModel.find().populate('userId', { name: 1, emp_id: 1 }).populate('leave', { name: 1 });
-        const records = await applyleaveModel.find({ userId: { $ne: req.user.id } }).populate({ path: 'userId', match: { role: '0' } }).populate('userId', { name: 1, emp_id: 1 }).populate('leave', { name: 1 });
+        const records = await applyleaveModel.find({ userId: { $ne: req.user.id } }).populate({ path: 'userId', match: { role: '0' } }).populate('userId', { name: 1, emp_id: 1 })
         res.status(201).json(records);
     }
     catch (error) {
@@ -57,7 +61,7 @@ exports.admin_get_apply_leave = async (req, res) => {
 
     try {
         // const records = await applyleaveModel.find().match({userId:{role:'0'}}).populate('userId', { name: 1, emp_id: 1,role: 1}).populate('leave', { name: 1 });
-        const records = await applyleaveModel.find().populate('userId', { name: 1, emp_id: 1 }).populate('leave', { name: 1 });
+        const records = await applyleaveModel.find().populate('userId', { name: 1, emp_id: 1 });
         res.status(201).json(records);
     }
     catch (error) {
@@ -126,7 +130,7 @@ exports.single_user_apply_leave = async (req, res) => {
 
 
     try {
-        const records = await applyleaveModel.find({ userId: req.user.id }).populate('userId', { name: 1, emp_id: 1 }).populate('leave', { name: 1 });
+        const records = await applyleaveModel.find({ userId: req.user.id }).populate('userId', { name: 1, emp_id: 1 })
         res.status(201).json(records);
     }
     catch (error) {
