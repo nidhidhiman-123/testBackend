@@ -16,11 +16,12 @@ const newuserSchema = new Schema({
     leave: {
         casual_leave: { type: Intl, default: 0.5 },
         sick_leave: { type: Intl, default: 0.5 },
+        earned_leave: { type: Intl, default: 0},
     },
     image: {
         type: String, default: ''
     },
-    invite_status: { type: String, default: false }
+    invite_status: { type: String, default: false },
 }, { timestamps: true, toJSON: { getters: true } });
 
 module.exports = mongoose.model('NewUser', newuserSchema, 'newuser')

@@ -39,7 +39,7 @@ router.post('/update_leave/:id', applyleaveController.update_leave);
 router.put('/cancel_leave/:id', applyleaveController.cancel_leave);
 router.get('/single_user_apply_leave', auth, applyleaveController.single_user_apply_leave);
 router.post('/like/:id', auth, postController.like);
-
+router.get('/employee_list', newuserController.employee_list);
 router.get('/all', auth, newuserController.all)
 router.get('/all_employee', newuserController.all_employee)
 router.post('/add_event', eventController.add_event);
@@ -59,7 +59,6 @@ router.get('/employee_birthday', newuserController.employee_birthday);
 router.get('/employee_anniversary', newuserController.employee_anniversary);
 router.get('/get_all_notification', auth, applyleaveController.get_all_notification);
 router.put('/is_mark_read/:id', applyleaveController.is_mark_read);
-router.get('/employee_list', newuserController.employee_list);
-router.put('/employee_remove/:id', newuserController.employee_remove);
+router.get('/cron', applyleaveController.earnedLeaveCron);
 module.exports = router;
 

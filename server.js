@@ -5,6 +5,10 @@ const router = require('./routes');
 const cors = require("cors");
 const app = express();
 const port = 8000
+const cron = require('node-cron');
+const { earnedLeaveCron } = require("./controllers/applyleave.controller")
+
+
 const whitelist = ["http://localhost:3000", "https://hrmsapp.vercel.app"]
 const corsOptions = {
   origin: function (origin, callback) {
@@ -23,6 +27,11 @@ app.use('/', router);
 app.use('/uploads', express.static('uploads'));
 app.use(express.urlencoded({ extended: true }))
 
+cron.schedule("* * 1 * *  ", () => {
+
+  console.log('running cron');
+  earnedLeaveCron();
+});
 mongoose.set("strictQuery", false);
 mongoose.connect(DATABASE_URI, {
   useNewUrlParser: true,

@@ -141,7 +141,6 @@ exports.employee_anniversary = async (req, res) => {
   }
   res.status(201).json(anniversary);
 
-
 }
 exports.employee_list = async (req, res) => {
   let finalsheet;
@@ -155,17 +154,6 @@ exports.employee_list = async (req, res) => {
   res.status(201).json(finalsheet);
 }
 
-exports.employee_remove = async (req, res) => {
-  let remove;
-
-  try {
-    remove = await newuserModel.findByIdAndUpdate({ _id: req.params.id }, { is_delete: true })
-  }
-  catch (error) {
-    console.log(error);
-  }
-  res.status(201).json(remove);
-}
 
 
 

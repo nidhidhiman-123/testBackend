@@ -7,9 +7,10 @@ const applyleaveSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, ref: 'NewUser' },
 
     leave: { type: String, required: true },
+    leave_type: { type: String, required: true },
     status: { type: String, default: "pending" },
     from_date: { type: String, required: true },
-    to_date: { type: String, required: true },
+    to_date: { type: String},
     reason: { type: String, required: true },
 
 

@@ -11,7 +11,7 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await newuserModel.findOne({ email: email, is_delete: false });
+    const user = await newuserModel.findOne({ email: email });
     if (!user) {
       return res
         .status(400)
@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
 
     }
 
-    const token = jwt.sign({ email: user.email, id: user._id, role: user.role }, SECRET_KEY)
+    const token = jwt.sign({ email: user.email, id: user._id ,role:user.role}, SECRET_KEY)
     res.status(201).json({ success: true, authtoken: token, user: user })
 
   }
