@@ -141,19 +141,8 @@ exports.employee_anniversary = async (req, res) => {
   }
   res.status(201).json(anniversary);
 
-}
-exports.employee_list = async (req, res) => {
-  let finalsheet;
 
-  try {
-    finalsheet = await newuserModel.find({ role: 0, is_delete: false })
-  }
-  catch (error) {
-    console.log(error);
-  }
-  res.status(201).json(finalsheet);
 }
-
 
 
 

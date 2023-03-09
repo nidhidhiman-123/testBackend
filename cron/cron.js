@@ -11,7 +11,7 @@ cron.schedule('* * * * * *', () => {
 
     console.log('running a task every minute');
 });
-
+// const db = require("./models")
 // // apptracker cron job
 // const cron = require("node-cron");
 

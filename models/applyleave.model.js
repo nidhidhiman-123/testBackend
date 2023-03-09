@@ -15,7 +15,7 @@ const applyleaveSchema = new Schema({
 
 
 
-})
+},{ timestamps: true })
 
 
 module.exports = mongoose.model('Apply_leave', applyleaveSchema, 'apply_leave');

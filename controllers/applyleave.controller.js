@@ -71,7 +71,7 @@ exports.getapply_leaves = async (req, res) => {
 
     try {
         // const records = await applyleaveModel.find().populate('userId', { name: 1, emp_id: 1 }).populate('leave', { name: 1 });
-        const records = await applyleaveModel.find({ userId: { $ne: req.user.id } }).populate({ path: 'userId', match: { role: '0' } }).populate('userId', { name: 1, emp_id: 1 })
+        const records = await applyleaveModel.find({ userId: { $ne: req.user.id } }).populate({ path: 'userId', match: { role: '0' } }).populate('userId', { name: 1, emp_id: 1 }).sort({createdAt:-1})
         res.status(201).json(records);
     }
     catch (error) {
@@ -142,7 +142,7 @@ exports.update_leave = async (req, res) => {
     // Don't Touch Any Condition  without permission
 
     let check = await newuserModel.findByIdAndUpdate(id, { $set: { leave: edit.leave } })
-    let set_notification = await notificationModel.findOneAndUpdate({ leave_id: apply_leave_id }, { type: "approved", is_read: true })
+    let set_notification = await notificationModel.findOneAndUpdate({ leave_id: apply_leave_id }, { type: "approved", is_read_by_hr: true })
     return res.send("success")
 
 }
@@ -152,7 +152,7 @@ exports.cancel_leave = async (req, res) => {
         const id = req.params.id;
         let apply_leave_id = req.body.apply_leave_id;
         let cancelled = await applyleaveModel.findByIdAndUpdate(apply_leave_id, { status: 'rejected' })
-        let set_notification = await notificationModel.findOneAndUpdate({ leave_id: apply_leave_id }, { type: "rejected", is_read: true })
+        let set_notification = await notificationModel.findOneAndUpdate({ leave_id: apply_leave_id }, { type: "rejected", is_read_by_hr: true })
     }
     catch (error) {
         console.log(error);
@@ -166,7 +166,7 @@ exports.single_user_apply_leave = async (req, res) => {
 
 
     try {
-        const records = await applyleaveModel.find({ userId: req.user.id }).populate('userId', { name: 1, emp_id: 1 })
+        const records = await applyleaveModel.find({ userId: req.user.id }).populate('userId', { name: 1, emp_id: 1 }).sort({createdAt:-1})
         res.status(201).json(records);
     }
     catch (error) {
@@ -179,15 +179,17 @@ exports.get_all_notification = async (req, res) => {
     let role = req.user.role;
     // console.log(req.user)
     let filter = {
-        is_read: false
+        // is_read: false
     }
     if (role == 2) {
         filter.type = "pending"
         filter.userId = { $ne: req.user.id }
+        filter.is_read_by_hr = false
     }
     if (role == 0) {
         filter.type = { $in: ['rejected', 'approved'] }
         filter.userId = req.user.id
+        filter.is_read_by_user = false
     }
     // console.log(filter, 'noti')
 
@@ -202,13 +204,28 @@ exports.get_all_notification = async (req, res) => {
 
 exports.is_mark_read = async (req, res) => {
     let is_mark;
+    console.log(req.user)
+    let role = req.user.role;
+    // console.log(req.user)
+    let filter = {
+        // is_read: false
+    }
+    if (role == 2) {
+        filter.is_read_by_hr = true
+    }
+    if (role == 0) {
+        filter.is_read_by_user = true
+    }
     try {
-        is_mark = await notificationModel.findByIdAndUpdate({ _id: req.params.id }, { is_read: true })
+        is_mark = await notificationModel.findByIdAndUpdate({ _id: req.params.id }, filter)
     }
     catch (error) {
         console.log(error);
     }
-    res.status(201).json(is_mark);
+    res.status(201).json({
+        success:true,
+        redirect:filter.is_read_by_hr?true:false
+    });
 }
 
 exports.earnedLeaveCron = async (req, res) => {
@@ -223,7 +240,7 @@ exports.earnedLeaveCron = async (req, res) => {
         update['earned_leave'] += 1
         let check = await newuserModel.findByIdAndUpdate(x._id, { $set: { leave: update } })
     }
-    // res.send("successfully")
+    res.send("successfully")
 }
 
 // module.exports = {
