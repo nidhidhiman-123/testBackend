@@ -8,7 +8,7 @@ const moment = require("moment")
 
 exports.adduser = async (req, res) => {
   try {
-    const { name, email, first_login, dob, phonenumber, designation, emp_id, date_of_joining } = req.body;
+    const { name, email, first_login, dob, phonenumber, designation, emp_id, date_of_joining, profile, otherDesignation, team_leader } = req.body;
     const existingUser = await newuserModel.findOne({ email: email });
     if (existingUser)
       return res
@@ -22,7 +22,10 @@ exports.adduser = async (req, res) => {
       dob,
       emp_id,
       designation,
-      date_of_joining
+      date_of_joining,
+      team_leader,
+      profile,
+      otherDesignation
 
     });
     const savedUser = await adduser.save();
@@ -31,22 +34,37 @@ exports.adduser = async (req, res) => {
     res.status(201).json({ data: savedUser, authtoken: token })
 
   } catch (err) {
+    console.error(err)
     res.status(500).json({ error: err.message });
   }
 
 },
-  exports.all = async (req, res) => {
-
-    let findrecords;
-
+  exports.getAllTeamLeaders = async (req, res) => {
     try {
-      findrecords = await newuserModel.findById(req.user.id);
+      let filter = {
+        profile: 'team_leader',
+        is_delete: false
+      }
+      let data = await newuserModel.find(filter, { name: 1, id: 1 })
+      res.status(200).json(data)
+
+    } catch (e) {
+      console.log(e)
+      res.status(500).json(e)
     }
-    catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-    return res.json(findrecords);
-  },
+  }
+exports.all = async (req, res) => {
+
+  let findrecords;
+
+  try {
+    findrecords = await newuserModel.findById(req.user.id);
+  }
+  catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+  return res.json(findrecords);
+},
 
   exports.all_add_employee = async (req, res) => {
 
@@ -93,25 +111,21 @@ exports.adduser = async (req, res) => {
   }
 exports.employee_birthday = async (req, res) => {
 
-  let allemployee = await newuserModel.find();
+  let allemployee = await newuserModel.find({ is_delete: false });
   let birthday = [];
   for (let x of allemployee) {
     const todayMonth = new Date().getMonth() + 1;
+    let todaydate = new Date().getDate()
 
     var DateObj = new Date(x.dob);
-    console.log(DateObj.getMonth() + 1, todayMonth, "sddddddddddddd");
     const final = DateObj.getMonth() + 1
-    if (final === todayMonth) {
-      console.log("yes")
+    let upcomingDates = DateObj.getDate()
+    console.log(x.name, todayMonth, todaydate, final, upcomingDates, "sddddddddddddd");
+    if (final === todayMonth && todaydate <= upcomingDates) {
       birthday.push({ name: x.name, dob: x.dob, image: x.image })
     }
-    else {
-      console.log("no")
-    }
-
-    console.log(birthday, "birthday")
-
   }
+  console.log(birthday)
   res.status(201).json(birthday);
 
 }
@@ -121,24 +135,19 @@ exports.employee_anniversary = async (req, res) => {
   let anniversary = [];
   for (let x of allemployee) {
     const todayMonth = new Date().getMonth() + 1;
+    let todaydate = new Date().getDate()
 
     var DateObj = new Date(x.date_of_joining);
-    console.log(DateObj.getMonth() + 1, todayMonth, "sddddddddddddd");
-    const final = DateObj.getMonth() + 1
-    if (final === todayMonth) {
-      console.log("yes")
+    let upcomingDates = DateObj.getDate()
 
+    const final = DateObj.getMonth() + 1
+    if (final === todayMonth && todaydate <= upcomingDates) {
       const difference = new Date().getFullYear() - DateObj.getFullYear();
       if (difference > 0)
         anniversary.push({ name: x.name, date_of_joining: x.date_of_joining, image: x.image, difference: difference })
     }
-    else {
-      console.log("no")
-    }
-
-
-
   }
+  console.log(anniversary)
   res.status(201).json(anniversary);
 
 

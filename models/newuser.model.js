@@ -3,16 +3,19 @@ const { APP_URL } = require("../config");
 const Schema = mongoose.Schema;
 
 const newuserSchema = new Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    name: { type: String, },
+    email: { type: String, required: true, },
     password: { type: String, default: '' },
-    phonenumber: { type: String, required: true },
-    dob: { type: Date, required: true },
-    designation: { type: String, required: true },
-    date_of_joining: { type: String, required: true },
-    emp_id: { type: String, required: true },
+    phonenumber: { type: String, },
+    dob: { type: Date,  },
+    designation: { type: String,  },
+    date_of_joining: { type: String,  },
+    emp_id: { type: String, },
     role: { type: Intl, default: 0 },
     first_login: { type: String, default: '' },
+    otherDesignation:{type:String,default:null},
+    profile:{type:String,default:null},
+    team_leader: {type:String,default:null },
     leave: {
         casual_leave: { type: Intl, default: 0.5 },
         sick_leave: { type: Intl, default: 0.5 },
@@ -22,6 +25,7 @@ const newuserSchema = new Schema({
         type: String, default: ''
     },
     invite_status: { type: String, default: false },
+    is_delete:{type:Boolean,default:false}
 }, { timestamps: true, toJSON: { getters: true } });
 
 module.exports = mongoose.model('NewUser', newuserSchema, 'newuser')

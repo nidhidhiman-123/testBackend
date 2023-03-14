@@ -31,6 +31,7 @@ router.delete('/delete_post/:id', postController.deletepost);
 router.put('/edit_post/:id', postController.editpost);
 router.post('/change_password', auth, profileController.change_password);
 router.post('/add_user', newuserController.adduser);
+router.get('/get/team_leaders',newuserController.getAllTeamLeaders)
 router.post('/add_leave', postController.add_leaves);
 router.post('/apply_leave', auth, applyleaveController.apply);
 router.get('/all_leave', postController.allleave);

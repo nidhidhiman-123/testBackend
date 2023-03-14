@@ -173,6 +173,7 @@ exports.change_password = async (req, res) => {
       new_password: 'required',
       confirm_password: 'required|same:new_password'
     });
+    console.log(req.body)
 
     const matched = await val.check();
 
